@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIN Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .scroll-mt-24 {
+            scroll-margin-top: 6rem;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="bg-teal-600 text-white text-sm py-1.5 px-4 hidden md:flex justify-between items-center">
+        <div>
+            <!-- The date will be inserted here by JavaScript -->
+            <span id="current-date"></span> |
+            <a href="#" class="hover:underline">Staff Mail</a> |
+            <a href="#" class="hover:underline">IDMIS</a> |
+            <a href="#" class="hover:underline">Digital Dam Repository</a>
+        </div>
+        <div class="flex space-x-2">
+            <a href="#" class="hover:text-gray-300">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.288.647-2.52 2.62-2.52H18V.97c-.352-.057-1.353-.131-2.535-.131-2.618 0-4.322 1.583-4.322 4.414V13.5zm-3 0V24H0V13.5h3v-2.5H0V0h11v11h-3z"/>
+                </svg>
+            </a>
+            <a href="#" class="hover:text-gray-300">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.954 4.568c-.85.378-1.745.633-2.697.74a4.854 4.854 0 002.128-2.597 9.873 9.873 0 01-3.155 1.205c-.808-.857-1.956-1.391-3.262-1.391-2.464 0-4.463 1.999-4.463 4.463 0 .349.04.686.118 1.01a12.68 12.68 0 01-9.213-4.655c-.394.676-.619 1.464-.619 2.302 0 1.547.785 2.915 1.979 3.714-.729-.023-1.415-.223-2.01-.555v.056c0 2.158 1.536 3.963 3.567 4.38-.375.102-.77.157-1.177.157-.291 0-.573-.028-.847-.08a4.464 4.464 0 004.153 3.104 8.955 8.955 0 01-5.558 1.92c-.361 0-.719-.021-1.072-.061a12.64 12.64 0 006.872 2.014c8.245 0 12.753-6.824 12.753-12.754 0-.195-.005-.389-.013-.583a9.123 9.123 0 002.247-2.336z"/>
+                </svg>
+            </a>
+            <a href="#" class="hover:text-gray-300">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21.954 6.945c-.247-.942-1.085-1.616-2.048-1.761-1.79-.271-9.018-.271-9.018-.271s-7.228 0-9.018.271c-.963.145-1.801.819-2.048 1.761-.247.942-.247 2.115-.247 3.057s0 2.115.247 3.057c.247.942 1.085 1.616 2.048 1.761 1.79.271 9.018.271 9.018.271s7.228 0 9.018-.271c.963-.145 1.801-.819 2.048-1.761.247-.942.247-2.115.247-3.057s-.001-2.115-.247-3.057zM9.75 16.5V7.5L16.5 12l-6.75 4.5z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Project Header Section -->
+    <div class="bg-white py-8 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 lg:px-8">
+            <img src="https://placehold.co/150x150/d1d5db/4b5563?text=Logo" alt="SPIN Logo" class="w-32 h-32 mb-4 md:mb-0">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-center text-teal-700">
+                TRANSFORMING AGRICULTURAL DEVELOPMENT IN NIGERIA (SPIN) PROJECT
+            </h1>
+            <img src="https://placehold.co/150x150/d1d5db/4b5563?text=World+Bank" alt="World Bank Logo" class="w-32 h-32 mb-4 md:mb-0">
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 text-white shadow-lg z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-12">
+                <div class="flex items-center space-x-2">
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">About Us</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">RBDAs</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Schemes</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Project Galleries</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Research</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Advertisement</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium">Contact Us</a>
+
+                    <!-- My Menu Dropdown -->
+                    <div class="relative dropdown">
+                        <button class="px-3 py-2 text-sm font-medium flex items-center">
+                            My Menu
+                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="dropdown-menu hidden absolute top-full left-0 mt-0 bg-white shadow-md rounded-b-lg w-48 py-2 z-50">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Staff Mail</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Internal Memo</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Support Ticket</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content Area with Sidebar -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+            <!-- Main Content Column -->
+            <div class="lg:col-span-2">
+
+                <!-- About Section -->
+                <section id="about" class="py-12 bg-gray-100 rounded-lg shadow-md mb-8 scroll-mt-24">
+                    <div class="px-6">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">About the SPIN Project</h2>
+                        <p class="text-lg leading-relaxed text-gray-600">
+                            The Sustainable Project in Nigeria (SPIN) is a visionary initiative aimed at driving agricultural innovation and sustainable development across the nation. By focusing on modern farming techniques, community empowerment, and environmental stewardship, SPIN seeks to transform local economies and improve livelihoods for millions of Nigerians. Our mission is to build resilient and productive agricultural systems that ensure long-term food security and prosperity.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Components Section -->
+                <section id="components" class="py-12 bg-white rounded-lg shadow-md mb-8 scroll-mt-24">
+                    <div class="px-6">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Project Components</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Component Card 1 -->
+                            <div class="bg-gray-50 rounded-lg shadow-inner p-6 border border-gray-200">
+                                <h3 class="text-2xl font-semibold text-teal-600 mb-3">Modern Irrigation Systems</h3>
+                                <p class="text-gray-600">
+                                    Implementing state-of-the-art irrigation technology to ensure efficient water usage and maximize crop yields in arid regions.
+                                </p>
+                            </div>
+                            <!-- Component Card 2 -->
+                            <div class="bg-gray-50 rounded-lg shadow-inner p-6 border border-gray-200">
+                                <h3 class="text-2xl font-semibold text-teal-600 mb-3">Community Empowerment</h3>
+                                <p class="text-gray-600">
+                                    Providing training and resources to local farmers, empowering them with the skills needed for successful and sustainable farming practices.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Gallery Section -->
+                <section id="gallery" class="py-12 bg-gray-100 rounded-lg shadow-md mb-8 scroll-mt-24">
+                    <div class="px-6">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Photo Gallery</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <img src="https://placehold.co/600x400/b0b0b0/ffffff?text=Image+1" alt="Gallery Image 1" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                            <img src="https://placehold.co/600x400/a0a0a0/ffffff?text=Image+2" alt="Gallery Image 2" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                            <img src="https://placehold.co/600x400/c0c0c0/ffffff?text=Image+3" alt="Gallery Image 3" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                            <img src="https://placehold.co/600x400/d0d0d0/ffffff?text=Image+4" alt="Gallery Image 4" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact" class="py-12 bg-white rounded-lg shadow-md mb-8 scroll-mt-24">
+                    <div class="px-6">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Contact Us</h2>
+                        <p class="text-lg text-gray-600 mb-4">
+                            For more information about the SPIN project, please reach out to us.
+                        </p>
+                        <a href="mailto:info@spinproject.org" class="inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-200">
+                            Email Us
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Sidebar Column -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Search Bar Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Search</h3>
+                    <input type="text" placeholder="Search..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+
+                <!-- What's New Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">What's New</h3>
+                    <ul class="space-y-4">
+                        <li class="border-b pb-2 last:border-b-0">
+                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
+                                Invitation for Bids (IFB)
+                                <span class="block text-sm text-gray-500 mt-1">Advertisement, International, Latest News</span>
+                            </a>
+                        </li>
+                        <li class="border-b pb-2 last:border-b-0">
+                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
+                                Request for Expression of Interest
+                                <span class="block text-sm text-gray-500 mt-1">Advertisement, Latest News, National</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
+                                Consultancy Services for Feasibility Studies
+                                <span class="block text-sm text-gray-500 mt-1">Advertisement, Latest News</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Get in touch Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Get in touch with us!</h3>
+                    <div class="flex space-x-4 justify-center">
+                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14 13.5h2.5l1-4H14v-2c0-1.288.647-2.52 2.62-2.52H18V.97c-.352-.057-1.353-.131-2.535-.131-2.618 0-4.322 1.583-4.322 4.414V13.5zm-3 0V24H0V13.5h3v-2.5H0V0h11v11h-3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-sky-400 transition-colors duration-200">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.954 4.568c-.85.378-1.745.633-2.697.74a4.854 4.854 0 002.128-2.597 9.873 9.873 0 01-3.155 1.205c-.808-.857-1.956-1.391-3.262-1.391-2.464 0-4.463 1.999-4.463 4.463 0 .349.04.686.118 1.01a12.68 12.68 0 01-9.213-4.655c-.394.676-.619 1.464-.619 2.302 0 1.547.785 2.915 1.979 3.714-.729-.023-1.415-.223-2.01-.555v.056c0 2.158 1.536 3.963 3.567 4.38-.375.102-.77.157-1.177.157-.291 0-.573-.028-.847-.08a4.464 4.464 0 004.153 3.104 8.955 8.955 0 01-5.558 1.92c-.361 0-.719-.021-1.072-.061a12.64 12.64 0 006.872 2.014c8.245 0 12.753-6.824 12.753-12.754 0-.195-.005-.389-.013-.583a9.123 9.123 0 002.247-2.336z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-600 hover:text-red-600 transition-colors duration-200">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21.954 6.945c-.247-.942-1.085-1.616-2.048-1.761-1.79-.271-9.018-.271-9.018-.271s-7.228 0-9.018.271c-.963.145-1.801.819-2.048 1.761-.247.942-.247 2.115-.247 3.057s0 2.115.247 3.057c.247.942 1.085 1.616 2.048 1.761 1.79.271 9.018.271 9.018.271s7.228 0 9.018-.271c.963-.145 1.801-.819 2.048-1.761.247-.942.247-2.115.247-3.057s-.001-2.115-.247-3.057zM9.75 16.5V7.5L16.5 12l-6.75 4.5z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Newsletter Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Newsletter</h3>
+                    <p class="text-sm text-gray-600 mb-4">To subscribe to our newsletter, do enter your email address in the box below</p>
+                    <input type="email" placeholder="Email" class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <button class="w-full bg-gray-800 text-white font-bold py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">Subscribe</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="mb-1">&copy; 2024 SPIN Project. All Rights Reserved.</p>
+            <p>Powered by es2 limited</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const dateSpan = document.getElementById('current-date');
+            if (dateSpan) {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = now.toLocaleDateString('en-US', options);
+                dateSpan.textContent = formattedDate;
+            }
+        });
+    </script>
+
+</body>
+</html>

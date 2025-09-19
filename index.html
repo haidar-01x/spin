@@ -1,251 +1,1040 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPIN Project</title>
+    <title>SPIN - Sustainable Power and Irrigation for Nigeria</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: #1a202c;
+            background-color: #f7fafc;
         }
-        .scroll-mt-24 {
-            scroll-margin-top: 6rem;
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            background-color: rgba(44, 62, 80, 0.7);
+            position: relative;
+            overflow: hidden;
         }
-        .dropdown:hover .dropdown-menu {
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+        .hero-image.active {
+            opacity: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .navbar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .navbar.hidden-scroll {
+            transform: translateY(-100%);
+        }
+        .circular-image {
+            border-radius: 50%;
+            overflow: hidden;
+            border: 8px solid white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        .search-container {
+            transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            width: 0;
+            opacity: 0;
+        }
+        .search-container.active {
+            width: 250px;
+            opacity: 1;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .faq-question {
+            cursor: pointer;
+        }
+        .faq-answer {
+            display: none;
+        }
+        .faq-answer.active {
+            display: block;
+        }
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            transition: transform 0.2s;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .map-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .message-form-container {
+             background-image: url('https://placehold.co/1000x800/f0fdf4/16a34a?text=Background+Pattern');
+             background-size: cover;
+             background-position: center;
+             border-radius: 0.5rem;
+        }
+        /* New CSS for dropdown toggling with JavaScript */
+        .dropdown-menu-js {
+            display: none;
+        }
+        .dropdown-menu-js.active {
             display: block;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="antialiased">
 
-    <!-- Top Bar -->
-    <div class="bg-teal-600 text-white text-sm py-1.5 px-4 hidden md:flex justify-between items-center">
-        <div>
-            <!-- The date will be inserted here by JavaScript -->
-            <span id="current-date"></span> |
-            <a href="#" class="hover:underline">Staff Mail</a> |
-            <a href="#" class="hover:underline">IDMIS</a> |
-            <a href="#" class="hover:underline">Digital Dam Repository</a>
-        </div>
-        <div class="flex space-x-2">
-            <a href="#" class="hover:text-gray-300">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14 13.5h2.5l1-4H14v-2c0-1.288.647-2.52 2.62-2.52H18V.97c-.352-.057-1.353-.131-2.535-.131-2.618 0-4.322 1.583-4.322 4.414V13.5zm-3 0V24H0V13.5h3v-2.5H0V0h11v11h-3z"/>
-                </svg>
+    <!-- Top Header -->
+    <header class="bg-white shadow-lg w-full z-50 py-4">
+        <div class="container mx-auto px-4 md:px-8 flex items-center justify-between">
+            <!-- Logo Section -->
+            <a href="#home" class="flex items-center space-x-2" id="site-logo">
+                <span class="text-4xl font-bold text-green-700">SPIN</span>
             </a>
-            <a href="#" class="hover:text-gray-300">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.954 4.568c-.85.378-1.745.633-2.697.74a4.854 4.854 0 002.128-2.597 9.873 9.873 0 01-3.155 1.205c-.808-.857-1.956-1.391-3.262-1.391-2.464 0-4.463 1.999-4.463 4.463 0 .349.04.686.118 1.01a12.68 12.68 0 01-9.213-4.655c-.394.676-.619 1.464-.619 2.302 0 1.547.785 2.915 1.979 3.714-.729-.023-1.415-.223-2.01-.555v.056c0 2.158 1.536 3.963 3.567 4.38-.375.102-.77.157-1.177.157-.291 0-.573-.028-.847-.08a4.464 4.464 0 004.153 3.104 8.955 8.955 0 01-5.558 1.92c-.361 0-.719-.021-1.072-.061a12.64 12.64 0 006.872 2.014c8.245 0 12.753-6.824 12.753-12.754 0-.195-.005-.389-.013-.583a9.123 9.123 0 002.247-2.336z"/>
-                </svg>
-            </a>
-            <a href="#" class="hover:text-gray-300">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M21.954 6.945c-.247-.942-1.085-1.616-2.048-1.761-1.79-.271-9.018-.271-9.018-.271s-7.228 0-9.018.271c-.963.145-1.801.819-2.048 1.761-.247.942-.247 2.115-.247 3.057s0 2.115.247 3.057c.247.942 1.085 1.616 2.048 1.761 1.79.271 9.018.271 9.018.271s7.228 0 9.018-.271c.963-.145 1.801-.819 2.048-1.761.247-.942.247-2.115.247-3.057s-.001-2.115-.247-3.057zM9.75 16.5V7.5L16.5 12l-6.75 4.5z"/>
-                </svg>
-            </a>
-        </div>
-    </div>
-    
-    <!-- Project Header Section -->
-    <div class="bg-white py-8 border-b border-gray-200">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 lg:px-8">
-            <img src="https://placehold.co/150x150/d1d5db/4b5563?text=Logo" alt="SPIN Logo" class="w-32 h-32 mb-4 md:mb-0">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-center text-teal-700">
-                SUSTAINABLE PROJECT IN NIGERIA (SPIN) 
-            </h1>
-            <img src="https://placehold.co/150x150/d1d5db/4b5563?text=World+Bank" alt="World Bank Logo" class="w-32 h-32 mb-4 md:mb-0">
-        </div>
-    </div>
-
-    <!-- Navigation Bar -->
-    <nav class="bg-gray-800 text-white shadow-lg z-40 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-12">
+            
+            <!-- Contact Info Section -->
+            <div class="hidden md:flex items-center space-x-6">
+                <!-- Phone -->
                 <div class="flex items-center space-x-2">
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Home</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">About Us</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">RBDAs</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Schemes</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Project Galleries</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Research</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Advertisement</a>
-                    <a href="#" class="px-3 py-2 text-sm font-medium">Contact Us</a>
-
-                    <!-- My Menu Dropdown -->
-                    <div class="relative dropdown">
-                        <button class="px-3 py-2 text-sm font-medium flex items-center">
-                            My Menu
-                            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="dropdown-menu hidden absolute top-full left-0 mt-0 bg-white shadow-md rounded-b-lg w-48 py-2 z-50">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Staff Mail</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Internal Memo</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Support Ticket</a>
-                        </div>
+                    <div class="bg-gray-200 p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.158l-2.492 1.872a1 1 0 00-.464 1.189l.317.95a1 1 0 001.38.748l1.71-1.284a1 1 0 011.16-.01l1.496 1.496a1 1 0 01.01 1.16l-1.284 1.71a1 1 0 00.748 1.38l.95.317a1 1 0 001.189-.464l1.872-2.492a1 1 0 011.158-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.728 21 3 14.272 3 6V5z" />
+                        </svg>
+                    </div>
+                    <div class="text-sm">
+                        <span class="block text-gray-500">Call us</span>
+                        <span class="block font-semibold">+234 800 000 0000</span>
+                    </div>
+                </div>
+                
+                <!-- Email -->
+                <div class="flex items-center space-x-2">
+                    <div class="bg-gray-200 p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 11h9a2 2 0 002-2V7a2 2 0 00-2-2H3a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="text-sm">
+                        <span class="block text-gray-500">Send an email</span>
+                        <span class="block font-semibold">info@spin.gov.ng</span>
+                    </div>
+                </div>
+                
+                <!-- Address -->
+                <div class="flex items-center space-x-2">
+                    <div class="bg-gray-200 p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <div class="text-sm">
+                        <span class="block text-gray-500">Address</span>
+                        <span class="block font-semibold">123 SPIN Drive, Abuja, Nigeria</span>
                     </div>
                 </div>
             </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                    
+                </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="bg-green-700 text-white shadow-md w-full z-40 sticky top-0 navbar">
+        <div class="container mx-auto px-4 md:px-8 flex items-center justify-between py-3">
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex flex-grow justify-center items-center space-x-8 font-semibold">
+                <a href="#home" class="hover:text-green-200 transition-colors">Home</a>
+                <a href="#mandate" class="hover:text-green-200 transition-colors">Mandate</a>
+                
+                <!-- About Us Dropdown with clickable parent - JS handled -->
+                <div class="relative dropdown-parent">
+                    <a href="#about-us-page" class="hover:text-green-200 transition-colors dropdown-link">About Us</a>
+                    <div class="absolute dropdown-menu-js bg-green-700 text-white mt-2 py-2 w-48 rounded-md shadow-lg z-50">
+                        <a href="#faqs" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">FAQs</a>
+                    </div>
+                </div>
+                
+                <a href="#ads-all" class="hover:text-green-200 transition-colors">Advertisements</a>
+                
+                <!-- News Dropdown with clickable parent - JS handled -->
+                <div class="relative dropdown-parent">
+                    <a href="#news-all" class="hover:text-green-200 transition-colors dropdown-link">News</a>
+                    <div class="absolute dropdown-menu-js bg-green-700 text-white mt-2 py-2 w-48 rounded-md shadow-lg z-50">
+                        <a href="#press-releases-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Press Releases</a>
+                        <a href="#publications-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Publications</a>
+                    </div>
+                </div>
+                
+                <a href="#state-offices" class="hover:text-green-200 transition-colors">State Offices</a>
+                <a href="#gallery-page" class="hover:text-green-200 transition-colors">Gallery</a>
+                <a href="#projects-all" class="hover:text-green-200 transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-green-200 transition-colors">Contact</a>
+            </div>
+            
+            <!-- Search Icon and Input -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button id="search-icon" class="text-white hover:text-green-200 transition-colors focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                <div id="search-input-container" class="search-container overflow-hidden">
+                    <input type="text" placeholder="Search..." class="w-full h-10 px-4 rounded-full text-sm text-gray-800 focus:outline-none">
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden w-full flex justify-end">
+                <button id="mobile-menu-toggle" class="text-white focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-dropdown" class="md:hidden hidden bg-green-700 shadow-md">
+            <nav class="flex flex-col p-4 space-y-2 text-white font-semibold">
+                <a href="#home" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Home</a>
+                <a href="#mandate" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Mandate</a>
+                <!-- About Us Dropdown for Mobile -->
+                <div class="relative">
+                    <button class="w-full text-left px-4 py-2 hover:bg-green-800 rounded-md transition-colors" onclick="toggleMobileDropdown(event, 'about')">About Us</button>
+                    <div id="mobile-about-dropdown" class="hidden flex flex-col pl-4 mt-1 space-y-2">
+                         <a href="#about-us-page" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">About Us</a>
+                        <a href="#faqs" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">FAQs</a>
+                    </div>
+                </div>
+                <a href="#ads-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Advertisements</a>
+                <!-- News Dropdown for Mobile -->
+                <div class="relative">
+                    <button class="w-full text-left px-4 py-2 hover:bg-green-800 rounded-md transition-colors" onclick="toggleMobileDropdown(event, 'news')">News</button>
+                    <div id="mobile-news-dropdown" class="hidden flex flex-col pl-4 mt-1 space-y-2">
+                         <a href="#news-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Latest News</a>
+                        <a href="#press-releases-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Press Releases</a>
+                        <a href="#publications-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Publications</a>
+                    </div>
+                </div>
+                <a href="#state-offices" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">State Offices</a>
+                <a href="#gallery-page" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Gallery</a>
+                <a href="#projects-all" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Projects</a>
+                <a href="#contact" class="block px-4 py-2 hover:bg-green-800 rounded-md transition-colors">Contact</a>
+            </nav>
         </div>
     </nav>
     
-    <!-- Main Content Area with Sidebar -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <main>
+        
+        <!-- All Homepage Sections -->
+        <div id="all-sections" class="content-section active">
+            <!-- Hero Section -->
+            <section class="hero-section h-screen flex flex-col justify-center items-center text-center text-white px-4">
+                <!-- Hero Images for slideshow -->
+                <img src="https://placehold.co/1920x800/2c3e50/ffffff?text=Image+1" alt="SPIN Hero Image 1" class="hero-image active">
+                <img src="https://placehold.co/1920x800/16a085/ffffff?text=Image+2" alt="SPIN Hero Image 2" class="hero-image">
+                <img src="https://placehold.co/1920x800/f39c12/ffffff?text=Image+3" alt="SPIN Hero Image 3" class="hero-image">
+                
+                <div class="hero-content">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 max-w-4xl">Sustainable Power and Irrigation for Nigeria (SPIN)</h1>
+                    <p class="text-lg md:text-xl font-light max-w-3xl mb-8">
+                        Driving sustainable agricultural transformation in Nigeria through integrated infrastructure development.
+                    </p>
+                    <a href="#" class="bg-green-700 hover:bg-green-800 transition-colors text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                        Explore Our Work
+                    </a>
+                </div>
 
-            <!-- Main Content Column -->
-            <div class="lg:col-span-2">
+                <!-- Manual Navigation Buttons -->
+                <div class="absolute inset-y-0 flex items-center justify-between w-full px-4 md:px-8">
+                    <button id="prev-btn" class="text-white bg-black bg-opacity-50 p-3 rounded-full hover:bg-opacity-75 transition-colors focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="next-btn" class="text-white bg-black bg-opacity-50 p-3 rounded-full hover:bg-opacity-75 transition-colors focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </section>
 
-                <!-- About Section -->
-                <section id="about" class="py-12 bg-gray-100 rounded-lg shadow-md mb-8 scroll-mt-24">
-                    <div class="px-6">
-                        <h2 class="text-4xl font-bold text-gray-900 mb-6">About the SPIN Project</h2>
-                        <p class="text-lg leading-relaxed text-gray-600">
-                            The Sustainable Project in Nigeria (SPIN) is a visionary initiative aimed at driving agricultural innovation and sustainable development across the nation. By focusing on modern farming techniques, community empowerment, and environmental stewardship, SPIN seeks to transform local economies and improve livelihoods for millions of Nigerians. Our mission is to build resilient and productive agricultural systems that ensure long-term food security and prosperity.
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Components Section -->
-                <section id="components" class="py-12 bg-white rounded-lg shadow-md mb-8 scroll-mt-24">
-                    <div class="px-6">
-                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Project Components</h2>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Component Card 1 -->
-                            <div class="bg-gray-50 rounded-lg shadow-inner p-6 border border-gray-200">
-                                <h3 class="text-2xl font-semibold text-teal-600 mb-3">Modern Irrigation Systems</h3>
-                                <p class="text-gray-600">
-                                    Implementing state-of-the-art irrigation technology to ensure efficient water usage and maximize crop yields in arid regions.
-                                </p>
+            <!-- What is the SPIN Program Section -->
+            <section class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="relative flex flex-col md:flex-row items-center md:items-start">
+                        <div class="flex-shrink-0 relative w-64 h-64 md:w-96 md:h-96 z-10 md:mr-16 mb-8 md:mb-0">
+                            <div class="circular-image w-full h-full">
+                                 <img src="https://placehold.co/600x600/bbf7d0/166534?text=SPIN+Project" alt="SPIN Project" class="w-full h-full object-cover">
                             </div>
-                            <!-- Component Card 2 -->
-                            <div class="bg-gray-50 rounded-lg shadow-inner p-6 border border-gray-200">
-                                <h3 class="text-2xl font-semibold text-teal-600 mb-3">Community Empowerment</h3>
-                                <p class="text-gray-600">
-                                    Providing training and resources to local farmers, empowering them with the skills needed for successful and sustainable farming practices.
-                                </p>
+                             <div class="circular-image absolute w-32 h-32 md:w-48 md:h-48 -bottom-16 -left-8 md:bottom-16 md:-left-12 z-20">
+                                 <img src="https://placehold.co/400x400/99f6e4/065f46?text=SPIN" alt="Circular Image" class="w-full h-full object-cover">
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                <!-- Gallery Section -->
-                <section id="gallery" class="py-12 bg-gray-100 rounded-lg shadow-md mb-8 scroll-mt-24">
-                    <div class="px-6">
-                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Photo Gallery</h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <img src="https://placehold.co/600x400/b0b0b0/ffffff?text=Image+1" alt="Gallery Image 1" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-                            <img src="https://placehold.co/600x400/a0a0a0/ffffff?text=Image+2" alt="Gallery Image 2" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-                            <img src="https://placehold.co/600x400/c0c0c0/ffffff?text=Image+3" alt="Gallery Image 3" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-                            <img src="https://placehold.co/600x400/d0d0d0/ffffff?text=Image+4" alt="Gallery Image 4" class="w-full h-auto rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                        <div class="md:max-w-xl">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Sustainable Power and Irrigation for Nigeria (SPIN) Project</h2>
+                            <p class="text-gray-600 leading-relaxed mb-6">
+                                Nigeria faces a critical challenge in managing its water resources, which is essential for ensuring food security, increasing energy access, and building resilience to climate change. The country's dams and irrigation systems are in disrepair, and over 85% of its hydropower potential remains undeveloped. This lack of investment and fragmented management has left the economy vulnerable to climate shocks like floods and droughts, which have a severe impact on agriculture and livelihoods.
+                            </p>
+                            <p class="text-gray-600 leading-relaxed mb-6">
+                                The Sustainable Power and Irrigation for Nigeria (SPIN) Project is designed to address this by strengthening dam safety and improving the management of water resources for hydropower and irrigation. This project aims to rehabilitate critical water infrastructure, boost food production through enhanced irrigation, and increase energy generation. By doing so, it seeks to promote an integrated approach to water management that supports Nigeria’s long-term economic stability and climate resilience.
+                            </p>
+                            <ul class="text-gray-600 space-y-2">
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+                                    <span><b>Addressing Nigeria's Water, Food, and Energy Security</b></span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+                                    <span><b>Water Infrastructure and Dam Management</b></span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+                                    <span><b>Food Production and Irrigation</b></span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+                                    <span><b>Power Generation and Hydropower Potential</b></span>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+                                    <span><b>A Unified Approach for a Resilient Future</b></span>
+                                </li>
+                            </ul>
+                             <a href="#" class="inline-block mt-8 bg-green-700 hover:bg-green-800 transition-colors text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                                Discover more
+                            </a>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Contact Section -->
-                <section id="contact" class="py-12 bg-white rounded-lg shadow-md mb-8 scroll-mt-24">
-                    <div class="px-6">
-                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Contact Us</h2>
-                        <p class="text-lg text-gray-600 mb-4">
-                            For more information about the SPIN project, please reach out to us.
-                        </p>
-                        <a href="mailto:info@spinproject.org" class="inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-colors duration-200">
-                            Email Us
-                        </a>
+            <!-- News Section -->
+            <section id="news-section" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold">Latest News & Updates</h2>
+                        <a href="#news-all" class="text-green-700 font-semibold hover:underline" data-section="news">View All &rarr;</a>
                     </div>
-                </section>
-
-            </div>
-
-            <!-- Sidebar Column -->
-            <div class="lg:col-span-1 space-y-8">
-                <!-- Search Bar Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Search</h3>
-                    <input type="text" placeholder="Search..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-
-                <!-- What's New Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">What's New</h3>
-                    <ul class="space-y-4">
-                        <li class="border-b pb-2 last:border-b-0">
-                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
-                                Invitation for Bids (IFB)
-                                <span class="block text-sm text-gray-500 mt-1">Advertisement, International, Latest News</span>
-                            </a>
-                        </li>
-                        <li class="border-b pb-2 last:border-b-0">
-                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
-                                Request for Expression of Interest
-                                <span class="block text-sm text-gray-500 mt-1">Advertisement, Latest News, National</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-teal-600 hover:text-teal-800 transition-colors duration-200">
-                                Consultancy Services for Feasibility Studies
-                                <span class="block text-sm text-gray-500 mt-1">Advertisement, Latest News</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Get in touch Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Get in touch with us!</h3>
-                    <div class="flex space-x-4 justify-center">
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M14 13.5h2.5l1-4H14v-2c0-1.288.647-2.52 2.62-2.52H18V.97c-.352-.057-1.353-.131-2.535-.131-2.618 0-4.322 1.583-4.322 4.414V13.5zm-3 0V24H0V13.5h3v-2.5H0V0h11v11h-3z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-sky-400 transition-colors duration-200">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M23.954 4.568c-.85.378-1.745.633-2.697.74a4.854 4.854 0 002.128-2.597 9.873 9.873 0 01-3.155 1.205c-.808-.857-1.956-1.391-3.262-1.391-2.464 0-4.463 1.999-4.463 4.463 0 .349.04.686.118 1.01a12.68 12.68 0 01-9.213-4.655c-.394.676-.619 1.464-.619 2.302 0 1.547.785 2.915 1.979 3.714-.729-.023-1.415-.223-2.01-.555v.056c0 2.158 1.536 3.963 3.567 4.38-.375.102-.77.157-1.177.157-.291 0-.573-.028-.847-.08a4.464 4.464 0 004.153 3.104 8.955 8.955 0 01-5.558 1.92c-.361 0-.719-.021-1.072-.061a12.64 12.64 0 006.872 2.014c8.245 0 12.753-6.824 12.753-12.754 0-.195-.005-.389-.013-.583a9.123 9.123 0 002.247-2.336z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-red-600 transition-colors duration-200">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M21.954 6.945c-.247-.942-1.085-1.616-2.048-1.761-1.79-.271-9.018-.271-9.018-.271s-7.228 0-9.018.271c-.963.145-1.801.819-2.048 1.761-.247.942-.247 2.115-.247 3.057s0 2.115.247 3.057c.247.942 1.085 1.616 2.048 1.761 1.79.271 9.018.271 9.018.271s7.228 0 9.018-.271c.963-.145 1.801-.819 2.048-1.761.247-.942.247-2.115.247-3.057s-.001-2.115-.247-3.057zM9.75 16.5V7.5L16.5 12l-6.75 4.5z"/>
-                            </svg>
-                        </a>
+                    <div id="news-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- News items will be populated here by JS -->
                     </div>
                 </div>
+            </section>
 
-                <!-- Newsletter Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Newsletter</h3>
-                    <p class="text-sm text-gray-600 mb-4">To subscribe to our newsletter, do enter your email address in the box below</p>
-                    <input type="email" placeholder="Email" class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <button class="w-full bg-gray-800 text-white font-bold py-2 rounded-lg hover:bg-teal-600 transition-colors duration-200">Subscribe</button>
+            <!-- Advertisement Section -->
+            <section id="ads-section" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold">Advertisements</h2>
+                        <a href="#ads-all" class="text-green-700 font-semibold hover:underline">View All &rarr;</a>
+                    </div>
+                    <div id="ads-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Ad items will be populated here by JS -->
+                    </div>
                 </div>
-            </div>
+            </section>
 
+            <!-- Press Release Section -->
+            <section id="press-releases-section" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold">Press Release</h2>
+                        <a href="#press-releases-all" class="text-green-700 font-semibold hover:underline" data-section="pressReleases">View All &rarr;</a>
+                    </div>
+                    <div id="press-releases-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Press releases will be populated here by JS -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Publications Section -->
+            <section id="publications-section" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold">Publications</h2>
+                        <a href="#publications-all" class="text-green-700 font-semibold hover:underline" data-section="publications">View All &rarr;</a>
+                    </div>
+                    <div id="publications-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Publications will be populated here by JS -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-4 md:px-8">
+                    <div class="flex justify-between items-center mb-12">
+                        <h2 class="text-3xl md:text-4xl font-bold">Projects</h2>
+                        <a href="#projects-all" class="text-green-700 font-semibold hover:underline">View All &rarr;</a>
+                    </div>
+                    <div id="projects-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Projects will be populated here by JS -->
+                    </div>
+                </div>
+            </section>
         </div>
+        
+        <!-- NEW: About Us Page (placeholder) -->
+        <div id="about-us-page" class="content-section py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 md:px-8">
+                <button class="mb-8 text-green-700 hover:text-green-800 font-semibold transition-colors" onclick="navigate('home')">&laquo; Back to Home</button>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800">About Us</h1>
+                <p class="text-lg text-gray-600">
+                    This is the placeholder for the "About Us" page content.
+                    Please provide the mission statement, history, and other details you would like to include.
+                </p>
+            </div>
+        </div>
+
+        <!-- FAQs Section (initially hidden) -->
+        <div id="faqs-page" class="content-section py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-4 md:px-8">
+                <button class="mb-8 text-green-700 hover:text-green-800 font-semibold transition-colors" onclick="navigate('home')">&laquo; Back to Home</button>
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-12">
+                    <div class="md:w-1/2">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-800">Frequently Asked Questions</h2>
+                        <div class="space-y-6">
+                            <!-- FAQ Item 1 -->
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <div class="flex justify-between items-center faq-question" onclick="toggleAnswer(this)">
+                                    <h3 class="font-semibold text-lg text-gray-700">What is the main goal of the SPIN project?</h3>
+                                    <svg class="w-6 h-6 text-green-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <div class="faq-answer mt-4 text-gray-600">
+                                    <p>The main goal is to strengthen dam safety and improve water resource management for sustainable power generation and irrigation, thereby boosting food security and economic resilience in Nigeria.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 2 -->
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <div class="flex justify-between items-center faq-question" onclick="toggleAnswer(this)">
+                                    <h3 class="font-semibold text-lg text-gray-700">How does the project address climate change?</h3>
+                                    <svg class="w-6 h-6 text-green-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <div class="faq-answer mt-4 text-gray-600">
+                                    <p>By rehabilitating water infrastructure, SPIN aims to build resilience against climate shocks like floods and droughts, which have a significant impact on agriculture and livelihoods.</p>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 3 -->
+                            <div class="bg-white p-6 rounded-xl shadow-md">
+                                <div class="flex justify-between items-center faq-question" onclick="toggleAnswer(this)">
+                                    <h3 class="font-semibold text-lg text-gray-700">What is the economic impact of the project?</h3>
+                                    <svg class="w-6 h-6 text-green-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <div class="faq-answer mt-4 text-gray-600">
+                                    <p>The project is expected to significantly boost food production through enhanced irrigation and increase energy generation, contributing to long-term economic stability and growth.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-8 rounded-xl shadow-md mt-12">
+                            <h4 class="text-xl font-bold mb-4 text-gray-800">Can't find your answer?</h4>
+                            <p class="text-gray-600 mb-4">Feel free to contact our support team. We're here to help.</p>
+                            <a href="tel:+2348000000000" class="flex items-center space-x-2 text-green-700 hover:underline">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.158l-2.492 1.872a1 1 0 00-.464 1.189l.317.95a1 1 0 001.38.748l1.71-1.284a1 1 0 011.16-.01l1.496 1.496a1 1 0 01.01 1.16l-1.284 1.71a1 1 0 00.748 1.38l.95.317a1 1 0 001.189-.464l1.872-2.492a1 1 0 011.158-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.728 21 3 14.272 3 6V5z" />
+                                </svg>
+                                <span class="text-lg font-bold">Call Us: +234 800 000 0000</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center">
+                        <img src="https://placehold.co/600x400/bbf7d0/166534?text=Our+Team+is+Ready+to+Help" alt="SPIN team ready to help" class="rounded-xl shadow-xl w-full max-w-lg h-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Detail/List Section (initially hidden) -->
+        <div id="news-page" class="content-section py-8 px-4 md:px-8">
+            <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+            <div id="news-page-content">
+                <!-- Single article or full list will be rendered here -->
+            </div>
+        </div>
+        
+        <!-- Press Releases Detail/List Section (initially hidden) -->
+        <div id="press-releases-page" class="content-section py-8 px-4 md:px-8">
+            <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+            <div id="press-releases-page-content">
+                <!-- Single article or full list will be rendered here -->
+            </div>
+        </div>
+        
+        <!-- Publications Detail/List Section (initially hidden) -->
+        <div id="publications-page" class="content-section py-8 px-4 md:px-8">
+            <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+            <div id="publications-page-content">
+                <!-- Single publication or full list will be rendered here -->
+            </div>
+        </div>
+        
+        <!-- Advertisements Detail/List Section (initially hidden) -->
+        <div id="ads-page" class="content-section py-8 px-4 md:px-8">
+            <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+            <div id="ads-page-content">
+                <!-- Single publication or full list will be rendered here -->
+            </div>
+        </div>
+        
+        <!-- Projects Detail/List Section (initially hidden) -->
+        <div id="projects-page" class="content-section py-8 px-4 md:px-8">
+            <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+            <div id="projects-page-content">
+                <!-- Single publication or full list will be rendered here -->
+            </div>
+        </div>
+        
+        <!-- Mandate Section (Placeholder) -->
+        <div id="mandate-page" class="content-section py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 md:px-8">
+                <button class="mb-8 text-green-700 hover:text-green-800 font-semibold transition-colors" onclick="navigate('home')">&laquo; Back to Home</button>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Our Mandate</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    Content for the Mandate page goes here. This section will detail the mission, vision, and core responsibilities of the SPIN project.
+                </p>
+            </div>
+        </div>
+        
+        <!-- New Gallery Page -->
+        <div id="gallery-page" class="content-section py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-4 md:px-8">
+                <button class="mb-8 text-green-700 hover:text-green-800 font-semibold transition-colors" onclick="navigate('home')">&laquo; Back to Home</button>
+                <h1 class="text-3xl md:text-4xl font-bold mb-8 text-gray-800">Gallery</h1>
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Gallery images will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- New Contact Page -->
+        <div id="contact-page" class="content-section py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-4 md:px-8">
+                <button class="mb-8 text-green-700 hover:text-green-800 font-semibold transition-colors" onclick="navigate('home')">&laquo; Back to Home</button>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <!-- Complaints Card -->
+                    <div class="bg-green-600 text-white p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-4">Complaints</h3>
+                        <p class="text-lg">+234 9050200026</p>
+                        <p class="text-lg">complaints@spin.gov.ng</p>
+                    </div>
+                    <!-- Contact Card -->
+                    <div class="bg-yellow-500 text-white p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-4">Contact</h3>
+                        <p class="text-lg">+234 8160006308</p>
+                        <p class="text-lg">admin@spin.gov.ng</p>
+                        <p class="text-lg mt-2">Mon - Fri: 9:00 AM - 4:00 PM</p>
+                    </div>
+                    <!-- Address Card -->
+                    <div class="bg-amber-400 text-white p-8 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-bold mb-4">Address</h3>
+                        <p class="text-lg">National Coordinating Office, No. 9</p>
+                        <p class="text-lg">Aguiyi Street, Area 11 Garki, Abuja, Nigeria</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Map Section -->
+                    <div class="rounded-xl shadow-lg overflow-hidden">
+                        <div class="map-container">
+                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.3503507851657!2d7.491299974574972!3d9.057390291436814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0b1ed221c977%3A0xc3b2e597c4f42065!2sFederal%20Ministry%20of%20Water%20Resources!5e0!3m2!1sen!2sng!4v1700688320498!5m2!1sen!2sng" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form Section -->
+                    <div class="message-form-container p-8">
+                        <h3 class="text-sm font-bold text-gray-600 mb-2">Contact Us</h3>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-6">Write a Message</h2>
+                        <form id="contact-form" action="#" method="POST" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="name" name="name" placeholder="Name" class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <input type="email" id="email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                            <div>
+                                <textarea id="message" name="message" rows="6" placeholder="Write a Message" class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full md:w-auto bg-green-700 hover:bg-green-800 transition-colors text-white font-bold py-3 px-8 rounded-full shadow-lg">Send a Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="mb-1">&copy; 2024 SPIN Project. All Rights Reserved.</p>
-            <p>Powered by es2 limited</p>
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- About Us Column -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 text-white">About SPIN</h3>
+                <p class="text-sm">
+                    The Sustainable Power and Irrigation for Nigeria (SPIN) program is a government-led initiative to transform the agricultural sector.
+                </p>
+            </div>
+            <!-- Quick Links Column -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 text-white">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-green-500 transition-colors">SAPZ Program</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors">Our Team</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors">Publications</a></li>
+                    <li><a href="#faqs" class="hover:text-green-500 transition-colors">FAQs</a></li>
+                </ul>
+            </div>
+            <!-- Contact Us Column -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 text-white">Contact Us</h3>
+                <p class="text-sm">
+                    Head Office: 123 SPIN Drive, Abuja, Nigeria<br>
+                    Phone: +234 800 123 4567<br>
+                    Email: info@spin.gov.ng
+                </p>
+            </div>
+            <!-- Social Media Column -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 text-white">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-green-500 transition-colors">Facebook</a>
+                    <a href="#" class="hover:text-green-500 transition-colors">Twitter</a>
+                    <a href="#" class="hover:text-green-500 transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
+            &copy; 2023 SPIN. All rights reserved.
         </div>
     </footer>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const dateSpan = document.getElementById('current-date');
-            if (dateSpan) {
-                const now = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = now.toLocaleDateString('en-US', options);
-                dateSpan.textContent = formattedDate;
+        // Data model to simulate an empty backend
+        const data = {
+            news: [],
+            pressReleases: [],
+            publications: [],
+            ads: [],
+            projects: [],
+            gallery: [
+                { id: 1, url: "https://placehold.co/600x400/bbf7d0/166534?text=SPIN+Project+1" },
+                { id: 2, url: "https://placehold.co/600x400/99f6e4/065f46?text=SPIN+Gallery+2" },
+                { id: 3, url: "https://placehold.co/600x400/94a3b8/475569?text=SPIN+Event+3" },
+                { id: 4, url: "https://placehold.co/600x400/c7d2fe/3730a3?text=SPIN+Team+4" },
+                { id: 5, url: "https://placehold.co/600x400/81c784/1b5e20?text=SPIN+Site+5" },
+                { id: 6, url: "https://placehold.co/600x400/a5d6a7/2e7d32?text=SPIN+Workshop+6" },
+                { id: 7, url: "https://placehold.co/600x400/e0e0e0/424242?text=SPIN+Meeting+7" },
+                { id: 8, url: "https://placehold.co/600x400/ffcc80/e65100?text=SPIN+Visit+8" },
+            ]
+        };
+
+        const sections = {
+            'home': 'all-sections',
+            'news-all': 'news-page',
+            'news-item': 'news-page',
+            'press-releases-all': 'press-releases-page',
+            'press-releases-item': 'press-releases-page',
+            'publications-all': 'publications-page',
+            'publications-item': 'publications-page',
+            'ads-all': 'ads-page',
+            'ads-item': 'ads-page',
+            'projects-all': 'projects-page',
+            'projects-item': 'projects-page',
+            'about-us-page': 'about-us-page',
+            'faqs': 'faqs-page',
+            'mandate': 'mandate-page',
+            'gallery-page': 'gallery-page',
+            'contact': 'contact-page'
+        };
+
+        const contentRenderers = {
+            'news': {
+                'list': 'news-list',
+                'page': 'news-page-content'
+            },
+            'pressReleases': {
+                'list': 'press-releases-list',
+                'page': 'press-releases-page-content'
+            },
+            'publications': {
+                'list': 'publications-list',
+                'page': 'publications-page-content'
+            },
+            'ads': {
+                'list': 'ads-list',
+                'page': 'ads-page-content'
+            },
+            'projects': {
+                'list': 'projects-list',
+                'page': 'projects-page-content'
+            }
+        };
+
+        function renderList(targetId, sectionType) {
+            const container = document.getElementById(targetId);
+            if (!container) return;
+            container.innerHTML = ''; // Clear previous content
+            
+            const itemsToRender = data[sectionType];
+
+            if (itemsToRender.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-center col-span-full">No ${sectionType.replace(/([A-Z])/g, ' $1').toLowerCase()} available at the moment.</p>`;
+                return;
+            }
+
+            itemsToRender.forEach(item => {
+                let itemHtml;
+                if (sectionType === 'projects') {
+                     itemHtml = `
+                        <a href="#${sectionType}-${item.id}" class="project-card rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                            <div class="project-card-overlay">
+                                ${item.title}
+                            </div>
+                        </a>
+                     `;
+                } else {
+                    itemHtml = `
+                        <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden p-6 transition-transform transform hover:scale-105">
+                            <span class="text-sm text-gray-500 font-medium">${item.date || ''}</span>
+                            <h3 class="text-lg font-bold mt-2 mb-2 text-gray-800">
+                                <a href="#${sectionType}-${item.id}" class="hover:text-blue-600 transition-colors duration-200">${item.title}</a>
+                            </h3>
+                            <p class="text-gray-600 text-sm leading-snug">${item.content.substring(0, 150)}...</p>
+                            <a href="#${sectionType}-${item.id}" class="text-green-700 font-semibold text-sm mt-4 block hover:underline">Read More &rarr;</a>
+                        </div>
+                    `;
+                }
+                container.innerHTML += itemHtml;
+            });
+        }
+
+        function renderFullList(pageId, sectionType) {
+            const pageContainer = document.getElementById(pageId);
+            const itemsToRender = data[sectionType];
+            
+            pageContainer.innerHTML = `
+                <div class="container mx-auto px-4 md:px-8">
+                    <button class="mb-8 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('home')">&laquo; Back to Home</button>
+                    <h1 class="text-4xl font-bold mb-8 capitalize text-gray-800">${sectionType.replace(/([A-Z])/g, ' $1')}</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="${sectionType}-full-list"></div>
+                </div>
+            `;
+            const listContainer = document.getElementById(`${sectionType}-full-list`);
+            
+            if (itemsToRender.length === 0) {
+                listContainer.innerHTML = `<p class="text-gray-500 text-center col-span-full">No ${sectionType.replace(/([A-Z])/g, ' $1').toLowerCase()} available at the moment.</p>`;
+                return;
+            }
+            
+            itemsToRender.forEach(item => {
+                let itemHtml;
+                if (sectionType === 'projects') {
+                    itemHtml = `
+                        <a href="#${sectionType}-${item.id}" class="project-card rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                            <div class="project-card-overlay">
+                                ${item.title}
+                            </div>
+                        </a>
+                    `;
+                } else {
+                    itemHtml = `
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                            <span class="text-sm text-gray-500 font-medium">${item.date || ''}</span>
+                            <h3 class="text-xl font-semibold mt-2 mb-2 text-gray-800">
+                                <a href="#${sectionType}-${item.id}" class="hover:text-blue-600 transition-colors duration-200">${item.title}</a>
+                            </h3>
+                            <p class="text-gray-600">${item.content.substring(0, 150)}...</p>
+                        </div>
+                    `;
+                }
+                listContainer.innerHTML += itemHtml;
+            });
+        }
+
+        function renderSingleItem(pageId, sectionType, itemId) {
+            const pageContainer = document.getElementById(pageId);
+            const item = data[sectionType].find(i => i.id === parseInt(itemId));
+            if (!item) {
+                pageContainer.innerHTML = '<p class="text-center text-red-500">Item not found.</p>';
+                return;
+            }
+
+            pageContainer.innerHTML = `
+                <div class="container mx-auto px-4 md:px-8">
+                    <button class="mb-4 text-blue-600 hover:text-blue-800 font-semibold" onclick="navigate('${sectionType}-all')">&laquo; Back to All ${sectionType.replace(/([A-Z])/g, ' $1')}</button>
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h1 class="text-4xl font-bold mb-2 text-gray-800">${item.title}</h1>
+                        <p class="text-sm text-gray-500 mb-6">${item.date || ''}</p>
+                        <p class="text-lg text-gray-700 leading-relaxed">${item.content}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Gallery rendering function
+        function renderGallery() {
+            const galleryGrid = document.getElementById('gallery-grid');
+            galleryGrid.innerHTML = '';
+            
+            data.gallery.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image.url;
+                imgElement.alt = `Gallery Image ${image.id}`;
+                imgElement.className = 'gallery-image shadow-md hover:shadow-xl transition-all';
+                galleryGrid.appendChild(imgElement);
+            });
+        }
+
+        function showSection(sectionId) {
+            Object.values(sections).forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.remove('active');
+                }
+            });
+            const sectionToShow = document.getElementById(sectionId);
+            if(sectionToShow) {
+              sectionToShow.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1);
+            if (!hash || hash === 'home' || hash === 'home-section') {
+                showSection('all-sections');
+            } else if (hash.includes('-all')) {
+                const parts = hash.split('-');
+                let sectionType = parts[0];
+                if(parts[0] === 'press') {
+                     sectionType = 'pressReleases';
+                }
+                renderFullList(contentRenderers[sectionType].page, sectionType);
+                showSection(contentRenderers[sectionType].page);
+            } else if (hash.match(/^(news|press-releases|publications|ads|projects)-(\d+)$/)) {
+                const parts = hash.split('-');
+                let sectionType = parts[0];
+                if(parts[0] === 'press') {
+                     sectionType = 'pressReleases';
+                }
+                const itemId = parts[parts.length - 1];
+                renderSingleItem(contentRenderers[sectionType].page, sectionType, itemId);
+                showSection(contentRenderers[sectionType].page);
+            } else if (hash === 'gallery-page') {
+                renderGallery();
+                showSection(sections[hash]);
+            }
+            else if (sections[hash]) {
+                showSection(sections[hash]);
+            }
+        }
+
+        function navigate(hash) {
+            window.location.hash = hash;
+        }
+
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('svg');
+            answer.classList.toggle('active');
+            icon.classList.toggle('rotate-180');
+        }
+        
+        function toggleMobileDropdown(event, dropdownId) {
+            event.preventDefault();
+            const dropdown = document.getElementById(`mobile-${dropdownId}-dropdown`);
+            dropdown.classList.toggle('hidden');
+        }
+
+
+        // --- Original Website Scripts ---
+
+        // Smooth scroll behavior for the navigation bar
+        let lastScrollY = window.scrollY;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (lastScrollY < window.scrollY && window.scrollY > 100) {
+                // Scrolling down
+                navbar.classList.add('hidden-scroll');
+            } else {
+                // Scrolling up
+                navbar.classList.remove('hidden-scroll');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileDropdown = document.getElementById('mobile-dropdown');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileDropdown.classList.toggle('hidden');
+        });
+
+        // Search icon click to show input field
+        const searchIcon = document.getElementById('search-icon');
+        const searchInputContainer = document.getElementById('search-input-container');
+
+        if(searchIcon && searchInputContainer) {
+            searchIcon.addEventListener('click', function() {
+                searchInputContainer.classList.toggle('active');
+            });
+        }
+        
+        // Image Slideshow Logic
+        const images = document.querySelectorAll('.hero-image');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        let currentImageIndex = 0;
+        let slideshowInterval;
+
+        function showImage(index) {
+            images.forEach(img => img.classList.remove('active'));
+            images[index].classList.add('active');
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            showImage(currentImageIndex);
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            showImage(currentImageIndex);
+        }
+
+        function startSlideshow() {
+            slideshowInterval = setInterval(nextImage, 5000);
+        }
+
+        function resetSlideshow() {
+            clearInterval(slideshowInterval);
+            startSlideshow();
+        }
+
+        if(prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevImage();
+                resetSlideshow();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                nextImage();
+                resetSlideshow();
+            });
+        }
+        
+        // New JavaScript for dropdowns with delay
+        let hideDropdownTimeout;
+
+        const dropdownParents = document.querySelectorAll('.dropdown-parent');
+        dropdownParents.forEach(parent => {
+            const dropdownMenu = parent.querySelector('.dropdown-menu-js');
+
+            parent.addEventListener('mouseenter', () => {
+                // Clear any existing timeout to prevent the menu from hiding
+                clearTimeout(hideDropdownTimeout);
+                dropdownMenu.classList.add('active');
+            });
+
+            parent.addEventListener('mouseleave', () => {
+                // Set a timeout to hide the menu after a brief delay
+                hideDropdownTimeout = setTimeout(() => {
+                    dropdownMenu.classList.remove('active');
+                }, 300); // 300ms delay
+            });
+
+            // If the mouse re-enters the menu itself, clear the timeout
+            dropdownMenu.addEventListener('mouseenter', () => {
+                clearTimeout(hideDropdownTimeout);
+            });
+        });
+
+        
+        // Initial render and event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            renderList(contentRenderers.news.list, 'news');
+            renderList(contentRenderers.pressReleases.list, 'pressReleases');
+            renderList(contentRenderers.publications.list, 'publications');
+            renderList(contentRenderers.ads.list, 'ads');
+            renderList(contentRenderers.projects.list, 'projects');
+            handleHashChange();
+            if(images.length > 0) {
+              showImage(currentImageIndex);
+              startSlideshow();
             }
         });
-    </script>
 
+        window.addEventListener('hashchange', handleHashChange);
+    </script>
 </body>
 </html>
